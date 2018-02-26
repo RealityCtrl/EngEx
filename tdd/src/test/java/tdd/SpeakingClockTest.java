@@ -35,6 +35,7 @@ public class SpeakingClockTest {
 		
 		verify(mockEngine).translate(aTime);
 		verify(mockClock, times(1)).getTime();
+		verify(mockSynth).speak("midnight");
 	}
 	
 	@After

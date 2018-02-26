@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StringTimeConverter implements TimeConveter {
 
@@ -153,6 +154,72 @@ public class StringTimeConverter implements TimeConveter {
 	@Override
 	public String convertTime() {
 		return convertLocalTimeToString(internalTime);
+	}
+	
+	private enum Hours{
+		
+		ONE(1),TWO(2);
+		
+		int aHour;
+		Hours(int hour){
+			aHour = hour;
+		}
+		
+		public static Map<Integer, Hours> hourIntegerMap;
+		static{
+			List<Hours> myValues = Arrays.asList(values());
+			hourIntegerMap = myValues.stream().collect(Collectors.toMap(Hours::getHour, e->e));
+		}
+		private int getHour(){
+			return aHour;
+		}
+		
+		public String stringFromInt(int aInt){
+			return hourIntegerMap.get(aInt).toString();
+		}
+		
+		public String toString(){
+			String formattedHour = null;
+			switch(aHour){
+			case 1: case 13:
+				formattedHour = "one";
+				break;
+			case 2: case 14:
+				formattedHour = "two";
+				break;
+			case 3: case 15:
+				formattedHour = "three";
+				break;
+			case 4: case 16:
+				formattedHour = "four";
+				break;
+			case 5: case 17:
+				formattedHour = "five";
+				break;
+			case 6: case 18:
+				formattedHour = "six";
+				break;
+			case 7: case 19:
+				formattedHour = "seven";
+				break;
+			case 8: case 20:
+				formattedHour = "eight";
+				break;
+			case 9: case 21:
+				formattedHour = "nine";
+				break;
+			case 10: case 22:
+				formattedHour = "ten";
+				break;
+			case 11: case 23:
+				formattedHour = "eleven";
+				break;
+			default:
+				formattedHour = "twelve";
+				break;
+			}
+			return formattedHour;
+		}
 	}
 
 }
