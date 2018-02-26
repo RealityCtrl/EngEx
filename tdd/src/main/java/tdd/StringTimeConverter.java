@@ -147,7 +147,7 @@ public class StringTimeConverter implements TimeConveter {
 	}
 
 	/* (non-Javadoc)
-	 * @see tdd.StringFromTime#getTimeAsString()
+	 * @see tdd.TimeConveter#getTimeAsString()
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
