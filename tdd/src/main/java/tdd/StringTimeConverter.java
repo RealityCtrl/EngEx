@@ -31,55 +31,13 @@ public class StringTimeConverter implements TimeConveter {
 		MINUTES_MAP.put(55, "five to");
 		MINUTES_MAP.put(60, "");
 	}
-	public StringTimeConverter(){
-
-	}
 
 	public StringTimeConverter(LocalTime aTime){
 		internalTime = aTime;
 	}
 
 	private static String hourToString(int aHour){
-		String formattedHour = null;
-		switch(aHour){
-		case 1: case 13:
-			formattedHour = "one";
-			break;
-		case 2: case 14:
-			formattedHour = "two";
-			break;
-		case 3: case 15:
-			formattedHour = "three";
-			break;
-		case 4: case 16:
-			formattedHour = "four";
-			break;
-		case 5: case 17:
-			formattedHour = "five";
-			break;
-		case 6: case 18:
-			formattedHour = "six";
-			break;
-		case 7: case 19:
-			formattedHour = "seven";
-			break;
-		case 8: case 20:
-			formattedHour = "eight";
-			break;
-		case 9: case 21:
-			formattedHour = "nine";
-			break;
-		case 10: case 22:
-			formattedHour = "ten";
-			break;
-		case 11: case 23:
-			formattedHour = "eleven";
-			break;
-		default:
-			formattedHour = "twelve";
-			break;
-		}
-		return formattedHour;
+		return HoursText.stringFromInt(aHour);
 	}
 
 	private static String convertLocalTimeToString(LocalTime aTime){
@@ -104,13 +62,17 @@ public class StringTimeConverter implements TimeConveter {
 
 	private static void generateHourString(StringBuilder myTimeString, int hour) {
 		myTimeString.append(hourToString(hour));
+		appendOClock(myTimeString);
+	}
+
+	private static void appendOClock(StringBuilder myTimeString) {
 		myTimeString.append(" ");
 		myTimeString.append(OClOCK);
 	}
 
 	private static StringBuilder generateMinutesText( int hour, int minutes) {
 		StringBuilder myTimeString = new StringBuilder();
-		if(!MINUTES_ON_HOUR.contains(minutes)){
+		if(!isExactlyAnHour(minutes)){
 			myTimeString.append(MINUTES_MAP.get(minutes));
 			myTimeString.append(" ");
 		}
@@ -119,11 +81,14 @@ public class StringTimeConverter implements TimeConveter {
 		}else{
 			myTimeString.append(hourToString(hour));
 		}
-		if(MINUTES_ON_HOUR.contains(minutes)){
-			myTimeString.append(" ");
-			myTimeString.append(OClOCK);
+		if(isExactlyAnHour(minutes)){
+			appendOClock(myTimeString);
 		}
 		return myTimeString;
+	}
+
+	private static boolean isExactlyAnHour(int minutes) {
+		return MINUTES_ON_HOUR.contains(minutes);
 	}
 
 	private static int adjustMinutesForLookUp(StringBuilder myTimeString, int minutes) {
@@ -156,69 +121,36 @@ public class StringTimeConverter implements TimeConveter {
 		return convertLocalTimeToString(internalTime);
 	}
 	
-	private enum Hours{
+	private enum HoursText{
 		
-		ONE(1),TWO(2);
+		ZERO(0,"twelve"),ONE(1, "one"),TWO(2, "two"), THREE(3,"three"),FOUR(4, "four"),FIVE(5,"five"),
+		SIX(6,"six"),SEVEN(7,"seven"),EIGHT(8,"eight"),NINE(9,"nine"),TEN(10,"ten"),ELEVEN(11,"eleven"),
+		TWELVE(12,"twelve"),THIRTEEN(13, "one"),FOURTEEN(14, "two"), FIFTEEN(15,"three"),SIXTEEN(16, "four"),
+		SEVENTEEN(17,"five"),EIGHTEEN(18,"six"),NINETEEN(19,"seven"),TWENTY(20,"eight"),TWENTy_ONE(21,"nine"),
+		TWENTy_TWO(22,"ten"),TWENTy_THREE(23,"eleven"),TWENTy_FOUR(24,"twelve");
 		
 		int aHour;
-		Hours(int hour){
+		String aStringTime;
+		HoursText(int hour, String stringTime){
 			aHour = hour;
+			aStringTime = stringTime;
 		}
 		
-		public static Map<Integer, Hours> hourIntegerMap;
+		public static Map<Integer, HoursText> hourIntegerMap;
 		static{
-			List<Hours> myValues = Arrays.asList(values());
-			hourIntegerMap = myValues.stream().collect(Collectors.toMap(Hours::getHour, e->e));
+			List<HoursText> myValues = Arrays.asList(values());
+			hourIntegerMap = myValues.stream().collect(Collectors.toMap(HoursText::getHour, e->e));
 		}
 		private int getHour(){
 			return aHour;
 		}
 		
-		public String stringFromInt(int aInt){
+		public static String stringFromInt(int aInt){
 			return hourIntegerMap.get(aInt).toString();
 		}
 		
 		public String toString(){
-			String formattedHour = null;
-			switch(aHour){
-			case 1: case 13:
-				formattedHour = "one";
-				break;
-			case 2: case 14:
-				formattedHour = "two";
-				break;
-			case 3: case 15:
-				formattedHour = "three";
-				break;
-			case 4: case 16:
-				formattedHour = "four";
-				break;
-			case 5: case 17:
-				formattedHour = "five";
-				break;
-			case 6: case 18:
-				formattedHour = "six";
-				break;
-			case 7: case 19:
-				formattedHour = "seven";
-				break;
-			case 8: case 20:
-				formattedHour = "eight";
-				break;
-			case 9: case 21:
-				formattedHour = "nine";
-				break;
-			case 10: case 22:
-				formattedHour = "ten";
-				break;
-			case 11: case 23:
-				formattedHour = "eleven";
-				break;
-			default:
-				formattedHour = "twelve";
-				break;
-			}
-			return formattedHour;
+			return aStringTime;
 		}
 	}
 
