@@ -1,4 +1,4 @@
-package tdd;
+package tdd.speakingclock;
 
 public class SpeakingClockEngineImpl implements ISpeakingClockEngine {
 

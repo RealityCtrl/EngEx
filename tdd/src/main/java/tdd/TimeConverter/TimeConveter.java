@@ -1,4 +1,4 @@
-package tdd;
+package tdd.TimeConverter;
 
 public interface TimeConveter {
 

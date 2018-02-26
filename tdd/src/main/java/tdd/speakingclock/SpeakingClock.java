@@ -1,10 +1,10 @@
-package tdd;
+package tdd.speakingclock;
 
 import static org.hamcrest.CoreMatchers.*;
 
 import org.hamcrest.Matcher;
 
-import tdd.IClock.ClockException;
+import tdd.speakingclock.IClock.ClockException;
 
 public class SpeakingClock {
 

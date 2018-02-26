@@ -1,4 +1,4 @@
-package tdd;
+package tdd.TimeConverter.formatter;
 
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class StringTimeConverter implements TimeConveter {
 
+public class SpeakingClockFormatter implements StringTimeFormatter {
+	
 	private final static String MIDNIGHT = "Midnight";
 	private final static String NOON = "Noon";
 	private final static String OClOCK = "o'clock";
 	private final static List<Integer> MINUTES_ON_HOUR = (List<Integer>) Arrays.asList(0,60);
-	private static LocalTime internalTime;
 
 	private static Map<Integer, String> MINUTES_MAP = new HashMap<>();
 	static{
@@ -31,16 +31,41 @@ public class StringTimeConverter implements TimeConveter {
 		MINUTES_MAP.put(55, "five to");
 		MINUTES_MAP.put(60, "");
 	}
-
-	public StringTimeConverter(LocalTime aTime){
-		internalTime = aTime;
+	
+	private enum HoursText{
+		
+		ZERO(0,"twelve"),ONE(1, "one"),TWO(2, "two"), THREE(3,"three"),FOUR(4, "four"),FIVE(5,"five"),
+		SIX(6,"six"),SEVEN(7,"seven"),EIGHT(8,"eight"),NINE(9,"nine"),TEN(10,"ten"),ELEVEN(11,"eleven"),
+		TWELVE(12,"twelve"),THIRTEEN(13, "one"),FOURTEEN(14, "two"), FIFTEEN(15,"three"),SIXTEEN(16, "four"),
+		SEVENTEEN(17,"five"),EIGHTEEN(18,"six"),NINETEEN(19,"seven"),TWENTY(20,"eight"),TWENTy_ONE(21,"nine"),
+		TWENTy_TWO(22,"ten"),TWENTy_THREE(23,"eleven"),TWENTy_FOUR(24,"twelve");
+		
+		int aHour;
+		String aStringTime;
+		HoursText(int hour, String stringTime){
+			aHour = hour;
+			aStringTime = stringTime;
+		}
+		
+		public static Map<Integer, HoursText> hourIntegerMap;
+		static{
+			List<HoursText> myValues = Arrays.asList(values());
+			hourIntegerMap = myValues.stream().collect(Collectors.toMap(HoursText::getHour, e->e));
+		}
+		private int getHour(){
+			return aHour;
+		}
+		
+		public static String stringFromInt(int aInt){
+			return hourIntegerMap.get(aInt).toString();
+		}
+		
+		public String toString(){
+			return aStringTime;
+		}
 	}
-
-	private static String hourToString(int aHour){
-		return HoursText.stringFromInt(aHour);
-	}
-
-	private static String convertLocalTimeToString(LocalTime aTime){
+	
+	public String formatLocalTime(LocalTime aTime){
 		StringBuilder myTimeString =  new StringBuilder();
 		if(LocalTime.MIDNIGHT.equals(aTime)){
 			myTimeString.append(MIDNIGHT);
@@ -59,10 +84,14 @@ public class StringTimeConverter implements TimeConveter {
 		}
 		return myTimeString.toString();
 	}
-
+	
 	private static void generateHourString(StringBuilder myTimeString, int hour) {
 		myTimeString.append(hourToString(hour));
 		appendOClock(myTimeString);
+	}
+	
+	private static String hourToString(int aHour){
+		return HoursText.stringFromInt(aHour);
 	}
 
 	private static void appendOClock(StringBuilder myTimeString) {
@@ -107,51 +136,4 @@ public class StringTimeConverter implements TimeConveter {
 		}
 		return minutes;
 	}
-
-	public static String convertTime(LocalTime aTime) {
-		return convertLocalTimeToString(aTime);
-	}
-
-	/* (non-Javadoc)
-	 * @see tdd.TimeConveter#getTimeAsString()
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public String convertTime() {
-		return convertLocalTimeToString(internalTime);
-	}
-	
-	private enum HoursText{
-		
-		ZERO(0,"twelve"),ONE(1, "one"),TWO(2, "two"), THREE(3,"three"),FOUR(4, "four"),FIVE(5,"five"),
-		SIX(6,"six"),SEVEN(7,"seven"),EIGHT(8,"eight"),NINE(9,"nine"),TEN(10,"ten"),ELEVEN(11,"eleven"),
-		TWELVE(12,"twelve"),THIRTEEN(13, "one"),FOURTEEN(14, "two"), FIFTEEN(15,"three"),SIXTEEN(16, "four"),
-		SEVENTEEN(17,"five"),EIGHTEEN(18,"six"),NINETEEN(19,"seven"),TWENTY(20,"eight"),TWENTy_ONE(21,"nine"),
-		TWENTy_TWO(22,"ten"),TWENTy_THREE(23,"eleven"),TWENTy_FOUR(24,"twelve");
-		
-		int aHour;
-		String aStringTime;
-		HoursText(int hour, String stringTime){
-			aHour = hour;
-			aStringTime = stringTime;
-		}
-		
-		public static Map<Integer, HoursText> hourIntegerMap;
-		static{
-			List<HoursText> myValues = Arrays.asList(values());
-			hourIntegerMap = myValues.stream().collect(Collectors.toMap(HoursText::getHour, e->e));
-		}
-		private int getHour(){
-			return aHour;
-		}
-		
-		public static String stringFromInt(int aInt){
-			return hourIntegerMap.get(aInt).toString();
-		}
-		
-		public String toString(){
-			return aStringTime;
-		}
-	}
-
 }

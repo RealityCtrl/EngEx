@@ -1,4 +1,4 @@
-package tdd;
+package tdd.speakingclock;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -8,6 +8,11 @@ import static org.mockito.Mockito.when;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import tdd.speakingclock.IClock;
+import tdd.speakingclock.ISpeakingClockEngine;
+import tdd.speakingclock.ISpeechSynthesizer;
+import tdd.speakingclock.SpeakingClock;
 
 public class SpeakingClockTest {
 	IClock mockClock;
