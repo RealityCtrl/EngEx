@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StringFromLocalTime implements StringFromTime {
+public class StringTimeConverter implements TimeConveter {
 
 	private final static String MIDNIGHT = "Midnight";
 	private final static String NOON = "Noon";
@@ -30,11 +30,11 @@ public class StringFromLocalTime implements StringFromTime {
 		MINUTES_MAP.put(55, "five to");
 		MINUTES_MAP.put(60, "");
 	}
-	public StringFromLocalTime(){
+	public StringTimeConverter(){
 
 	}
 
-	public StringFromLocalTime(LocalTime aTime){
+	public StringTimeConverter(LocalTime aTime){
 		internalTime = aTime;
 	}
 
@@ -142,15 +142,16 @@ public class StringFromLocalTime implements StringFromTime {
 		return minutes;
 	}
 
-	public static String getTimeAsString(LocalTime aTime) {
+	public static String convertTime(LocalTime aTime) {
 		return convertLocalTimeToString(aTime);
 	}
 
 	/* (non-Javadoc)
 	 * @see tdd.StringFromTime#getTimeAsString()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public String getTimeAsString() {
+	public String convertTime() {
 		return convertLocalTimeToString(internalTime);
 	}
 
