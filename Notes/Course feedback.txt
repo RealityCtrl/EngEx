@@ -1,0 +1,5 @@
+Needs to be more focused to role, majority of participants not developers so design patterns weren't revelant.  
+
+2 versions of course 
+1 development focused (emphasise TDD, Junit, Design patterns)
+2 ops/devops (emphasise architecture, deployment etc.)

@@ -1,0 +1,3 @@
+s3 browser windows
+http://training.conygre.com/allstate/
+https://prezi.com/cxpwi_og7lht/aws-regions-and-availability-zones/
