@@ -1,18 +1,15 @@
 package tdd.TimeConverter;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import tdd.TimeConverter.StringTimeConverter;
-import tdd.TimeConverter.TimeConveter;
-import tdd.TimeConverter.formatter.SpeakingClockFormatter;
-import tdd.TimeConverter.formatter.StringTimeFormatter;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalTime;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import tdd.TimeConverter.formatter.StringTimeFormatter;
 
 public class StringTimeConverterTest {
 	
